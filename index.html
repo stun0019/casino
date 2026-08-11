@@ -540,6 +540,71 @@
     .game-card:nth-child(4), .game-card:nth-child(5), .game-card:nth-child(6) { grid-column: span 4; }
     .game-card__name { font-family: Georgia, "Times New Roman", serif; font-size: 25px; font-weight: 400; }
     .game-card:first-child .game-card__name { font-size: 38px; }
+    .lobby-toolbar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin: -20px 0 30px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(226,194,117,.18);
+    }
+    .lobby-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .lobby-filter {
+      min-height: 42px;
+      padding: 0 18px;
+      border: 1px solid rgba(226,194,117,.2);
+      border-radius: 999px;
+      background: rgba(255,255,255,.015);
+      color: #aaa69e;
+      font: 700 11px/1 Arial, Helvetica, sans-serif;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .lobby-filter:hover { color: var(--gold-soft); border-color: rgba(226,194,117,.55); }
+    .lobby-filter.is-active {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: #090806;
+    }
+    .lobby-count { flex: 0 0 auto; color: #77736d; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+    .game-card[hidden] { display: none; }
+    .games-grid.is-filtered .game-card { grid-column: span 4; grid-row: span 1; }
+    .games-grid.is-filtered .game-card:first-child { grid-column: span 4; grid-row: span 1; }
+    .games-grid.is-filtered .game-card:first-child .game-card__name { font-size: 25px; }
+    .game-card__meta {
+      position: absolute;
+      z-index: 2;
+      top: 18px;
+      left: 18px;
+      display: flex;
+      gap: 7px;
+    }
+    .game-badge {
+      padding: 7px 9px;
+      border: 1px solid rgba(226,194,117,.42);
+      background: rgba(4,4,4,.72);
+      color: var(--gold-soft);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+    .lobby-empty {
+      display: none;
+      min-height: 240px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(226,194,117,.16);
+      background: linear-gradient(135deg, rgba(226,194,117,.04), transparent 55%);
+      text-align: center;
+    }
+    .lobby-empty.is-visible { display: flex; }
+    .lobby-empty strong { display: block; color: var(--gold-soft); font: 400 30px/1.1 Georgia, "Times New Roman", serif; }
+    .lobby-empty span { display: block; margin-top: 9px; color: var(--muted); font-size: 13px; }
 
     .feature-layout { grid-template-columns: 1.15fr .85fr; border: 0; background: #0b0a08; }
     .feature-media { min-height: 620px; }
@@ -598,6 +663,15 @@
       .game-card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
       .game-card:first-child .game-card__name { font-size: 29px; }
       .game-card__name { font-size: 18px; }
+      .lobby-toolbar { align-items: flex-start; flex-direction: column; gap: 14px; margin-top: -8px; }
+      .lobby-filters { width: 100%; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+      .lobby-filters::-webkit-scrollbar { display: none; }
+      .lobby-filter { flex: 0 0 auto; min-height: 40px; padding-inline: 15px; }
+      .games-grid.is-filtered .game-card,
+      .games-grid.is-filtered .game-card:first-child { grid-column: span 1; grid-row: span 1; }
+      .games-grid.is-filtered .game-card:first-child .game-card__name { font-size: 18px; }
+      .game-card__meta { top: 10px; left: 10px; }
+      .game-badge { padding: 6px 7px; font-size: 8px; }
       .feature-media { min-height: 320px; }
       .feature-copy { padding: 38px 25px 44px; }
       .journal-card__visual { height: 200px; }
@@ -629,7 +703,7 @@
       <nav class="desktop-nav" aria-label="Main navigation">
         <a href="#top">Home</a>
         <a href="#games">Free Play</a>
-        <a href="#games">Live Games</a>
+        <a href="#games">Game Lobby</a>
         <a href="#promotions">Promotions</a>
         <a href="#journal">Journal</a>
       </nav>
@@ -644,7 +718,7 @@
   <nav class="mobile-menu" aria-label="Mobile navigation">
     <a href="#top">Home</a>
     <a href="#games">Free Play</a>
-    <a href="#games">Live Games</a>
+    <a href="#games">Game Lobby</a>
     <a href="#promotions">Promotions</a>
     <a href="#journal">Journal</a>
     <div class="mobile-menu__actions"><a class="btn btn--gold" href="#login">Sign In</a><a class="btn" href="#register">Join Now</a></div>
@@ -660,7 +734,7 @@
         <p class="hero__lead">Enter a private world of live tables, considered rewards and seamless play—curated under the TSUKI moon.</p>
         <div class="hero__actions">
           <a class="btn btn--gold" href="#register">Join the Club</a>
-          <a class="btn" href="#games">Try Live Games</a>
+          <a class="btn" href="#games">Explore Game Lobby</a>
         </div>
       </div>
     </section>
@@ -710,15 +784,28 @@
         <div class="section-head reveal">
           <p class="eyebrow">Games</p>
           <h2>Game Lobby</h2>
-          <p>Six signature live games, seamlessly connected across mobile, tablet and desktop.</p>
+          <p>Explore the complete TSUKI collection by category. New tables and slots can be added as the club grows.</p>
         </div>
-        <div class="games-grid">
-          <a class="game-card reveal" href="#game-baccarat"><img src="assets/game-baccarat-v2.webp" alt="Live Baccarat"><h3 class="game-card__name">Live Baccarat</h3><span class="game-card__arrow">Enter Game →</span></a>
-          <a class="game-card reveal" href="#game-niuniu"><img src="assets/game-niuniu-v2.webp" alt="Niu Niu Baccarat"><h3 class="game-card__name">Niu Niu Baccarat</h3><span class="game-card__arrow">Enter Game →</span></a>
-          <a class="game-card reveal" href="#game-sicbo"><img src="assets/game-sicbo-v2.webp" alt="Sic Bo"><h3 class="game-card__name">Sic Bo</h3><span class="game-card__arrow">Enter Game →</span></a>
-          <a class="game-card reveal" href="#game-blackjack"><img src="assets/game-blackjack-v2.webp" alt="Blackjack"><h3 class="game-card__name">Blackjack</h3><span class="game-card__arrow">Enter Game →</span></a>
-          <a class="game-card reveal" href="#game-roulette"><img src="assets/game-roulette-v2.webp" alt="Roulette"><h3 class="game-card__name">Roulette</h3><span class="game-card__arrow">Enter Game →</span></a>
-          <a class="game-card reveal" href="#game-dragontiger"><img src="assets/game-dragontiger-v2.webp" alt="Dragon Tiger"><h3 class="game-card__name">Dragon Tiger</h3><span class="game-card__arrow">Enter Game →</span></a>
+        <div class="lobby-toolbar reveal">
+          <div class="lobby-filters" role="group" aria-label="Filter games by category">
+            <button class="lobby-filter is-active" type="button" data-filter="all" aria-pressed="true">All Games</button>
+            <button class="lobby-filter" type="button" data-filter="live" aria-pressed="false">Live Casino</button>
+            <button class="lobby-filter" type="button" data-filter="table" aria-pressed="false">Table Games</button>
+            <button class="lobby-filter" type="button" data-filter="slots" aria-pressed="false">Slots</button>
+            <button class="lobby-filter" type="button" data-filter="new" aria-pressed="false">New Games</button>
+          </div>
+          <span class="lobby-count" aria-live="polite">6 Games</span>
+        </div>
+        <div class="games-grid" data-game-grid>
+          <a class="game-card reveal" data-categories="live table" href="#game-baccarat"><img src="assets/game-baccarat-v2.webp" alt="Live Baccarat"><span class="game-card__meta"><span class="game-badge">Live</span></span><h3 class="game-card__name">Live Baccarat</h3><span class="game-card__arrow">Enter Game →</span></a>
+          <a class="game-card reveal" data-categories="live table new" href="#game-niuniu"><img src="assets/game-niuniu-v2.webp" alt="Niu Niu Baccarat"><span class="game-card__meta"><span class="game-badge">New</span><span class="game-badge">Live</span></span><h3 class="game-card__name">Niu Niu Baccarat</h3><span class="game-card__arrow">Enter Game →</span></a>
+          <a class="game-card reveal" data-categories="live table" href="#game-sicbo"><img src="assets/game-sicbo-v2.webp" alt="Sic Bo"><span class="game-card__meta"><span class="game-badge">Table</span></span><h3 class="game-card__name">Sic Bo</h3><span class="game-card__arrow">Enter Game →</span></a>
+          <a class="game-card reveal" data-categories="table" href="#game-blackjack"><img src="assets/game-blackjack-v2.webp" alt="Blackjack"><span class="game-card__meta"><span class="game-badge">Table</span></span><h3 class="game-card__name">Blackjack</h3><span class="game-card__arrow">Enter Game →</span></a>
+          <a class="game-card reveal" data-categories="table" href="#game-roulette"><img src="assets/game-roulette-v2.webp" alt="Roulette"><span class="game-card__meta"><span class="game-badge">Table</span></span><h3 class="game-card__name">Roulette</h3><span class="game-card__arrow">Enter Game →</span></a>
+          <a class="game-card reveal" data-categories="live table new" href="#game-dragontiger"><img src="assets/game-dragontiger-v2.webp" alt="Dragon Tiger"><span class="game-card__meta"><span class="game-badge">New</span><span class="game-badge">Live</span></span><h3 class="game-card__name">Dragon Tiger</h3><span class="game-card__arrow">Enter Game →</span></a>
+        </div>
+        <div class="lobby-empty" data-lobby-empty>
+          <div><strong>Slots are coming soon.</strong><span>This category is ready for your future slot releases.</span></div>
         </div>
       </div>
     </section>
@@ -757,7 +844,7 @@
         <div class="section-head reveal"><p class="eyebrow">FAQ</p><h2>Frequently Asked Questions</h2></div>
         <div class="faq reveal">
           <div class="faq-item open"><button class="faq-question" type="button" aria-expanded="true"><span class="faq-badge">TRUST &amp; SAFETY</span><strong>How does TSUKI CLUB protect fair play?</strong><span class="faq-icon">+</span></button><div class="faq-answer"><p>Every table is designed around transparent rules and independently tested game mechanics. Always review the terms and local regulations before participating.</p></div></div>
-          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">FREE PLAY</span><strong>Can I explore the games before joining?</strong><span class="faq-icon">+</span></button><div class="faq-answer"><p>Yes. Select a title from Live Tables to preview the interface and learn the flow in demonstration mode.</p></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">FREE PLAY</span><strong>Can I explore the games before joining?</strong><span class="faq-icon">+</span></button><div class="faq-answer"><p>Yes. Select a title from the Game Lobby to preview the interface and learn the flow in demonstration mode.</p></div></div>
           <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">PAYOUTS</span><strong>How long does a payout take?</strong><span class="faq-icon">+</span></button><div class="faq-answer"><p>The interface presents 24/7 automated processing. Actual completion times depend on verification status and the applicable service terms.</p></div></div>
           <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">GETTING STARTED</span><strong>Do I need an account for free play?</strong><span class="faq-icon">+</span></button><div class="faq-answer"><p>Demonstration play does not require a live account. Access to full services is subject to platform eligibility and account requirements.</p></div></div>
           <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">PLATFORM</span><strong>Does TSUKI CLUB use a shared wallet?</strong><span class="faq-icon">+</span></button><div class="faq-answer"><p>This front-end experience demonstrates a universal-wallet interface. It does not include real accounts, deposits, payments, wagers or financial processing.</p></div></div>
@@ -771,7 +858,7 @@
       <div class="footer-grid">
         <div class="footer-brand"><img src="assets/logo-tsuki.webp" alt="TSUKI CLUB"><p>A premium live gaming destination featuring baccarat, Niu Niu, sic bo, blackjack, roulette and dragon tiger.</p><a class="service-chip" href="#service">◎ 24/7 Club Support</a></div>
         <nav class="footer-col" aria-label="Explore"><h3>Explore</h3><a href="#top">Home</a><a href="#special">About TSUKI</a><a href="#games">Free Play</a><a href="#faq">FAQ</a><a href="#journal">Journal</a></nav>
-        <nav class="footer-col" aria-label="Live games"><h3>Live Games</h3><a href="#games">Live Baccarat</a><a href="#games">Niu Niu Baccarat</a><a href="#games">Sic Bo</a><a href="#games">Blackjack</a><a href="#games">Roulette</a><a href="#games">Dragon Tiger</a></nav>
+        <nav class="footer-col" aria-label="Game lobby"><h3>Game Lobby</h3><a href="#games">Live Baccarat</a><a href="#games">Niu Niu Baccarat</a><a href="#games">Sic Bo</a><a href="#games">Blackjack</a><a href="#games">Roulette</a><a href="#games">Dragon Tiger</a></nav>
         <nav class="footer-col" aria-label="Offers"><h3>Offers</h3><a href="#promotions">Fee-Free Payouts</a><a href="#promotions">0.6% Rebate</a><a href="#promotions">Welcome Match</a></nav>
       </div>
       <div class="responsible"><span class="age">18+</span><span>Adults only · Play responsibly · Know your limits.<br>This website is a front-end lobby experience and does not include real accounts, payments, wagers or financial processing.</span></div>
@@ -827,6 +914,34 @@
         slider.addEventListener('mouseleave', autoplay);
         autoplay();
       });
+
+      const gameGrid = document.querySelector('[data-game-grid]');
+      const gameCards = [...gameGrid.querySelectorAll('.game-card')];
+      const lobbyFilters = [...document.querySelectorAll('.lobby-filter')];
+      const lobbyCount = document.querySelector('.lobby-count');
+      const lobbyEmpty = document.querySelector('[data-lobby-empty]');
+
+      lobbyFilters.forEach(button => button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+        let visible = 0;
+
+        lobbyFilters.forEach(item => {
+          const active = item === button;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+
+        gameCards.forEach(card => {
+          const categories = card.dataset.categories.split(' ');
+          const matches = filter === 'all' || categories.includes(filter);
+          card.hidden = !matches;
+          if (matches) visible += 1;
+        });
+
+        gameGrid.classList.toggle('is-filtered', filter !== 'all');
+        lobbyEmpty.classList.toggle('is-visible', visible === 0);
+        lobbyCount.textContent = `${visible} ${visible === 1 ? 'Game' : 'Games'}`;
+      }));
 
       document.querySelectorAll('.faq-item').forEach(item => {
         const button = item.querySelector('.faq-question');
