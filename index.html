@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080806">
+  <title>卡利娛樂城｜亞洲真人娛樂</title>
+  <meta name="description" content="黑金質感真人遊戲大廳介面展示。">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-soft: #0b0a08;
+      --panel: #0f0e0b;
+      --panel-2: #14120d;
+      --line: rgba(224, 193, 112, .23);
+      --line-strong: rgba(224, 193, 112, .55);
+      --gold: #e2c275;
+      --gold-2: #b78a27;
+      --gold-soft: #f0d899;
+      --white: #f7f5ef;
+      --muted: #aaa69d;
+      --max: 1180px;
+      --header: 74px;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 50% 0, rgba(125, 89, 21, .08), transparent 28%),
+        var(--bg);
+      color: var(--white);
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    body.menu-open { overflow: hidden; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    .container { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+
+    .announcement {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      background: #030303;
+      color: #c8c5be;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .announcement__label {
+      position: relative;
+      z-index: 2;
+      flex: 0 0 auto;
+      height: 100%;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 17px;
+      color: var(--gold-soft);
+      background: #080806;
+      border-right: 1px solid var(--line);
+      font-weight: 700;
+    }
+    .announcement__track {
+      display: inline-flex;
+      gap: 54px;
+      min-width: max-content;
+      padding-left: 32px;
+      animation: ticker 30s linear infinite;
+    }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: var(--header);
+      background: rgba(12, 11, 7, .96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+    .header-row {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 26px;
+    }
+    .brand { flex: 0 0 auto; width: 205px; }
+    .brand img { width: 100%; height: auto; }
+    .desktop-nav { display: flex; align-items: center; gap: 34px; margin-left: auto; }
+    .desktop-nav a {
+      position: relative;
+      color: #d7d4cd;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: .04em;
+      transition: color .2s ease;
+    }
+    .desktop-nav a::after {
+      content: "";
+      position: absolute;
+      left: 50%; right: 50%; bottom: -15px;
+      height: 1px;
+      background: var(--gold);
+      transition: left .2s ease, right .2s ease;
+    }
+    .desktop-nav a:hover { color: var(--gold-soft); }
+    .desktop-nav a:hover::after { left: 0; right: 0; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 27px;
+      border: 1px solid var(--line-strong);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--gold-soft);
+      cursor: pointer;
+      font-weight: 750;
+      letter-spacing: .06em;
+      transition: transform .2s ease, filter .2s ease, background .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .btn--gold {
+      border-color: #dfbd63;
+      background: linear-gradient(135deg, #f3d77e 0%, #c39228 55%, #9d6b12 100%);
+      color: #161005;
+      box-shadow: 0 12px 30px rgba(164, 116, 18, .17), inset 0 1px rgba(255,255,255,.35);
+    }
+    .btn--small { min-height: 42px; padding-inline: 22px; font-size: 14px; }
+    .menu-toggle {
+      display: none;
+      width: 43px;
+      height: 43px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: rgba(255,255,255,.02);
+      cursor: pointer;
+    }
+    .menu-toggle span { display: block; width: 21px; height: 2px; margin: 5px auto; background: #e9e3d4; }
+
+    .mobile-menu {
+      position: fixed;
+      inset: calc(34px + var(--header)) 0 0;
+      z-index: 35;
+      display: grid;
+      align-content: start;
+      gap: 0;
+      padding: 22px 20px 110px;
+      background: rgba(5,5,4,.985);
+      transform: translateX(100%);
+      transition: transform .28s ease;
+    }
+    .menu-open .mobile-menu { transform: translateX(0); }
+    .mobile-menu a { padding: 17px 6px; border-bottom: 1px solid var(--line); color: #e9e5dc; font-weight: 700; }
+    .mobile-menu__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 26px; }
+
+    .hero {
+      position: relative;
+      min-height: 575px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background: #040404;
+    }
+    .hero__image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      opacity: .88;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background:
+        linear-gradient(90deg, #040404 1%, rgba(4,4,4,.88) 19%, rgba(4,4,4,.25) 60%, rgba(4,4,4,.28) 100%),
+        linear-gradient(0deg, #040404 0%, transparent 28%, rgba(0,0,0,.05) 70%);
+    }
+    .hero__ornament {
+      position: absolute;
+      z-index: 2;
+      inset: 35px 4vw auto auto;
+      width: 170px;
+      height: 105px;
+      border-top: 1px solid var(--line-strong);
+      border-right: 1px solid var(--line-strong);
+    }
+    .hero__content {
+      position: relative;
+      z-index: 3;
+      min-height: 575px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 58px 0 72px;
+    }
+    .eyebrow {
+      margin: 0 0 18px;
+      color: #c8c4bb;
+      text-transform: uppercase;
+      letter-spacing: .35em;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .eyebrow::before { content: ""; display: inline-block; width: 42px; height: 1px; margin: 0 16px 4px 0; background: var(--line-strong); }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(42px, 4.4vw, 68px);
+      line-height: 1.13;
+      letter-spacing: .015em;
+      text-shadow: 0 4px 28px rgba(0,0,0,.7);
+    }
+    .hero h1 span { display: block; color: var(--gold); }
+    .hero__lead { max-width: 590px; margin: 23px 0 27px; color: #d2cfc8; font-size: 17px; line-height: 1.9; }
+    .hero__actions { display: flex; gap: 16px; }
+    .hero__actions .btn { min-width: 132px; min-height: 56px; }
+
+    .trustbar { border-bottom: 1px solid var(--line); background: #070706; }
+    .trustbar__grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .trust-item { padding: 22px 27px 21px; border-right: 1px solid var(--line); }
+    .trust-item:first-child { border-left: 1px solid var(--line); }
+    .trust-item strong { display: block; margin-bottom: 1px; color: var(--gold-soft); font-family: Georgia, serif; font-size: 21px; letter-spacing: .04em; }
+    .trust-item span { color: #cbc7be; font-size: 13px; }
+
+    .section { position: relative; padding: 92px 0; }
+    .section--shade { background: linear-gradient(180deg, #080807 0%, #050505 100%); }
+    .section + .section { border-top: 1px solid rgba(224,193,112,.1); }
+    .section-head { margin-bottom: 38px; text-align: center; }
+    .section-head .eyebrow { margin-bottom: 6px; color: var(--gold); }
+    .section-head .eyebrow::before { width: 30px; }
+    .section-head .eyebrow::after { content: ""; display: inline-block; width: 30px; height: 1px; margin: 0 0 4px 16px; background: var(--line-strong); }
+    .section-head h2 { margin: 0; color: var(--gold-soft); font-size: clamp(30px, 3vw, 43px); letter-spacing: .06em; }
+    .section-head p:not(.eyebrow) { max-width: 680px; margin: 10px auto 0; color: var(--muted); }
+
+    .slider { position: relative; }
+    .slider__viewport { overflow: hidden; border: 1px solid var(--line); background: #090908; }
+    .slider__track { display: flex; transition: transform .55s cubic-bezier(.22,.75,.25,1); }
+    .slide { position: relative; flex: 0 0 100%; min-width: 0; min-height: 344px; overflow: hidden; }
+    .slide img { width: 100%; height: 344px; object-fit: cover; opacity: .9; }
+    .slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.88), rgba(0,0,0,.16) 72%); }
+    .slide__copy { position: absolute; z-index: 2; left: 7%; top: 50%; max-width: 430px; transform: translateY(-50%); }
+    .slide__copy small { color: var(--gold); text-transform: uppercase; letter-spacing: .25em; }
+    .slide__copy h3 { margin: 7px 0 6px; color: #fff; font-size: clamp(27px, 3vw, 40px); }
+    .slide__copy p { margin: 0 0 17px; color: #d0cdc6; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { padding: 5px 12px; border: 1px solid rgba(224,193,112,.35); color: var(--gold-soft); font-size: 13px; }
+    .slider__arrow {
+      position: absolute;
+      z-index: 4;
+      top: 50%;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--line-strong);
+      background: rgba(0,0,0,.75);
+      color: var(--gold-soft);
+      cursor: pointer;
+      transform: translateY(-50%);
+    }
+    .slider__arrow--prev { left: -24px; }
+    .slider__arrow--next { right: -24px; }
+    .dots { display: flex; justify-content: center; gap: 10px; margin-top: 23px; }
+    .dot { width: 28px; height: 3px; padding: 0; border: 0; background: #36342e; cursor: pointer; transition: background .2s ease, width .2s ease; }
+    .dot.active { width: 46px; background: var(--gold); }
+    .center-action { display: flex; justify-content: center; margin-top: 30px; }
+
+    .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .game-card {
+      position: relative;
+      min-height: 242px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #0b0b0a;
+      isolation: isolate;
+    }
+    .game-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .game-card::after { content: ""; position: absolute; z-index: 1; inset: 30% 0 0; background: linear-gradient(0deg, rgba(0,0,0,.95), transparent); }
+    .game-card__name { position: absolute; z-index: 2; left: 24px; bottom: 20px; margin: 0; color: #f4e4b1; font-size: 23px; letter-spacing: .08em; }
+    .game-card__arrow { position: absolute; z-index: 2; right: 22px; bottom: 24px; color: var(--gold); opacity: 0; transform: translateX(-8px); transition: .25s ease; }
+    .game-card:hover img { transform: scale(1.055); }
+    .game-card:hover .game-card__arrow { opacity: 1; transform: translateX(0); }
+
+    .feature-layout { display: grid; grid-template-columns: 1.06fr .94fr; align-items: stretch; border: 1px solid var(--line); background: var(--panel); }
+    .feature-media { position: relative; min-height: 440px; overflow: hidden; }
+    .feature-media img { width: 100%; height: 100%; object-fit: cover; }
+    .feature-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 60%, var(--panel)); }
+    .feature-copy { padding: 48px 44px; }
+    .feature-copy .eyebrow { color: var(--gold); }
+    .feature-copy h2 { margin: 0 0 16px; color: var(--gold-soft); font-size: 37px; }
+    .feature-copy > p { color: #b8b4ac; }
+    .feature-list { display: grid; gap: 16px; margin: 30px 0 0; padding: 0; list-style: none; }
+    .feature-list li { padding: 0 0 16px 27px; border-bottom: 1px solid var(--line); color: #aaa79f; }
+    .feature-list li::before { content: "◆"; float: left; margin-left: -27px; color: var(--gold); font-size: 11px; }
+    .feature-list strong { display: block; margin-bottom: 2px; color: #ece4d0; font-size: 17px; }
+
+    .journal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .journal-card { border: 1px solid var(--line); background: #0a0a09; transition: transform .2s ease, border-color .2s ease; }
+    .journal-card:hover { transform: translateY(-5px); border-color: var(--line-strong); }
+    .journal-card__visual { position: relative; height: 185px; overflow: hidden; }
+    .journal-card__visual img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.75); }
+    .journal-card__visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.75), transparent); }
+    .journal-card__count { position: absolute; z-index: 2; right: 14px; bottom: 12px; padding: 4px 10px; border: 1px solid var(--line); background: rgba(0,0,0,.65); color: var(--gold-soft); font-size: 12px; }
+    .journal-card__body { padding: 24px; }
+    .journal-card h3 { margin: 0 0 8px; color: var(--gold-soft); font-size: 22px; }
+    .journal-card p { min-height: 82px; margin: 0 0 18px; color: #9f9c95; font-size: 14px; }
+    .text-link { color: var(--gold); font-size: 14px; font-weight: 700; letter-spacing: .04em; }
+
+    .faq { max-width: 900px; margin: 0 auto; border-top: 1px solid var(--line); }
+    .faq-item { border-bottom: 1px solid var(--line); }
+    .faq-question { width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 17px; padding: 22px 4px; border: 0; background: transparent; text-align: left; cursor: pointer; }
+    .faq-badge { padding: 3px 10px; border: 1px solid rgba(224,193,112,.3); color: var(--gold); font-size: 12px; white-space: nowrap; }
+    .faq-question strong { color: #e8e4dc; font-size: 18px; }
+    .faq-icon { color: var(--gold); font-size: 22px; transition: transform .25s ease; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; color: #aaa79f; transition: max-height .35s ease; }
+    .faq-answer p { margin: 0; padding: 0 86px 24px; }
+
+    .site-footer { padding: 62px 0 30px; border-top: 1px solid var(--line); background: #080806; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 44px; }
+    .footer-brand img { width: 220px; }
+    .footer-brand p { max-width: 390px; color: #96938c; font-size: 14px; }
+    .service-chip { display: inline-flex; align-items: center; gap: 10px; margin-top: 8px; padding: 10px 14px; border: 1px solid var(--line); color: var(--gold-soft); }
+    .footer-col h3 { margin: 4px 0 15px; color: var(--gold-soft); font-size: 16px; }
+    .footer-col a { display: block; margin: 8px 0; color: #99968f; font-size: 14px; }
+    .footer-col a:hover { color: var(--gold); }
+    .responsible { display: flex; align-items: center; gap: 14px; margin-top: 45px; padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: #89867f; font-size: 12px; }
+    .age { flex: 0 0 auto; display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--gold-2); border-radius: 50%; color: var(--gold-soft); font-weight: 800; }
+    .copyright { margin: 24px 0 0; color: #696761; text-align: center; font-size: 12px; }
+
+    .mobile-dock {
+      position: fixed;
+      z-index: 60;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: none;
+      grid-template-columns: repeat(5, 1fr);
+      height: 67px;
+      border-top: 1px solid var(--line-strong);
+      background: rgba(9,8,6,.98);
+      box-shadow: 0 -10px 30px rgba(0,0,0,.55);
+    }
+    .mobile-dock a { display: grid; place-items: center; align-content: center; gap: 2px; color: #bdb8ac; font-size: 11px; }
+    .mobile-dock img { width: 22px; height: 22px; filter: sepia(1) saturate(.7) brightness(1.35); }
+    .mobile-dock a:nth-child(3) { color: var(--gold-soft); background: linear-gradient(180deg, rgba(210,171,68,.18), transparent); }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 980px) {
+      .desktop-nav { gap: 18px; }
+      .header-actions .btn:first-child { display: none; }
+      .brand { width: 180px; }
+      .hero { min-height: 525px; }
+      .hero__content { min-height: 525px; }
+      .games-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature-layout { grid-template-columns: 1fr; }
+      .feature-media { min-height: 390px; }
+      .feature-media::after { background: linear-gradient(0deg, var(--panel), transparent 50%); }
+      .journal-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1.6fr repeat(3, 1fr); gap: 24px; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --header: 62px; }
+      body { padding-bottom: 67px; font-size: 15px; }
+      .container { width: min(calc(100% - 32px), var(--max)); }
+      .announcement { height: 28px; font-size: 11px; }
+      .announcement__label { padding-inline: 10px; }
+      .announcement__track { gap: 34px; padding-left: 20px; animation-duration: 24s; }
+      .brand { width: 176px; }
+      .desktop-nav, .header-actions { display: none; }
+      .menu-toggle { display: block; }
+      .mobile-menu { inset-top: calc(28px + var(--header)); }
+      .hero { min-height: 570px; }
+      .hero__image { object-position: 57% center; opacity: .68; }
+      .hero::before {
+        background:
+          linear-gradient(90deg, rgba(0,0,0,.4), rgba(0,0,0,.1)),
+          linear-gradient(0deg, #040404 1%, rgba(4,4,4,.83) 27%, rgba(0,0,0,.08) 74%);
+      }
+      .hero__ornament { top: 39px; right: 24px; width: 98px; height: 70px; }
+      .hero__content { min-height: 570px; justify-content: flex-end; padding: 92px 0 48px; }
+      .hero .eyebrow { margin-bottom: 10px; font-size: 12px; letter-spacing: .26em; }
+      .hero .eyebrow::before { width: 28px; margin-right: 10px; }
+      .hero h1 { font-size: clamp(36px, 11vw, 48px); }
+      .hero__lead { margin: 17px 0 22px; font-size: 15px; line-height: 1.8; }
+      .hero__actions { width: 100%; gap: 14px; }
+      .hero__actions .btn { flex: 1; min-width: 0; min-height: 54px; padding-inline: 12px; }
+      .trustbar__grid { grid-template-columns: repeat(2, 1fr); }
+      .trust-item { min-height: 86px; padding: 15px 16px; border-bottom: 1px solid var(--line); }
+      .trust-item:nth-child(odd) { border-left: 0; }
+      .trust-item strong { font-size: 19px; }
+      .section { padding: 67px 0; }
+      .section-head { margin-bottom: 28px; }
+      .section-head .eyebrow { font-size: 12px; letter-spacing: .28em; }
+      .section-head h2 { font-size: 31px; }
+      .slide { min-height: 350px; }
+      .slide img { height: 350px; object-position: 57% center; }
+      .slide::after { background: linear-gradient(0deg, rgba(0,0,0,.96), rgba(0,0,0,.05) 82%); }
+      .slide__copy { right: 24px; bottom: 27px; left: 24px; top: auto; max-width: none; transform: none; }
+      .slide__copy h3 { font-size: 28px; }
+      .slider__arrow { top: 42%; width: 38px; height: 44px; }
+      .slider__arrow--prev { left: -8px; }
+      .slider__arrow--next { right: -8px; }
+      .games-grid { gap: 12px; }
+      .game-card { min-height: 156px; }
+      .game-card__name { left: 14px; bottom: 12px; font-size: 17px; }
+      .game-card__arrow { display: none; }
+      .feature-media { min-height: 260px; }
+      .feature-copy { padding: 30px 24px 34px; }
+      .feature-copy h2 { font-size: 30px; }
+      .journal-grid { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+      .journal-grid::-webkit-scrollbar { display: none; }
+      .journal-card { flex: 0 0 86%; scroll-snap-align: center; }
+      .faq-question { grid-template-columns: auto 1fr auto; gap: 10px; padding-block: 18px; }
+      .faq-question strong { font-size: 16px; }
+      .faq-answer p { padding: 0 4px 20px; }
+      .site-footer { padding-top: 48px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1 / -1; }
+      .footer-col:last-child { grid-column: 1 / -1; }
+      .responsible { align-items: flex-start; }
+      .mobile-dock { display: grid; }
+    }
+
+    @media (max-width: 420px) {
+      .container { width: min(calc(100% - 30px), var(--max)); }
+      .brand { width: 164px; }
+      .games-grid { grid-template-columns: 1fr 1fr; }
+      .game-card { min-height: 144px; }
+      .footer-grid { gap: 28px 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement" aria-label="系統公告">
+    <span class="announcement__label">◈ 公告</span>
+    <div class="announcement__track">
+      <span>【系統公告】申請優惠活動前，請先詳閱相關規則並完成綁定與驗證</span>
+      <span>【系統公告】使用信用卡儲值，請使用本人信用卡，儲值前先聯繫客服完成身分驗證</span>
+      <span>【系統公告】使用超商儲值點數，請保留繳費證明收據</span>
+      <span>【系統公告】申請優惠活動前，請先詳閱相關規則並完成綁定與驗證</span>
+      <span>【系統公告】使用信用卡儲值，請使用本人信用卡，儲值前先聯繫客服完成身分驗證</span>
+      <span>【系統公告】使用超商儲值點數，請保留繳費證明收據</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="#top" aria-label="卡利娛樂城首頁"><img src="assets/logo.svg" alt="卡利娛樂城"></a>
+      <nav class="desktop-nav" aria-label="主導覽">
+        <a href="#top">首頁</a>
+        <a href="#games">卡利試玩</a>
+        <a href="#games">娛樂產品</a>
+        <a href="#promotions">優惠活動</a>
+        <a href="#journal">文章分類</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn--gold btn--small" href="#login">登入</a>
+        <a class="btn btn--small" href="#register">註冊</a>
+      </div>
+      <button class="menu-toggle" type="button" aria-label="開啟選單" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <nav class="mobile-menu" aria-label="行動版主導覽">
+    <a href="#top">首頁</a>
+    <a href="#games">卡利試玩</a>
+    <a href="#games">娛樂產品</a>
+    <a href="#promotions">優惠活動</a>
+    <a href="#journal">文章分類</a>
+    <div class="mobile-menu__actions"><a class="btn btn--gold" href="#login">登入</a><a class="btn" href="#register">註冊</a></div>
+  </nav>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <img class="hero__image" src="assets/hero-main.webp" alt="輪盤與真人娛樂主視覺">
+      <span class="hero__ornament" aria-hidden="true"></span>
+      <div class="container hero__content">
+        <p class="eyebrow">Asia's Live Casino</p>
+        <h1 id="hero-title">亞洲真人娛樂<span>卡利娛樂城</span></h1>
+        <p class="hero__lead">CALI GAMING 直營供應商。百家樂、龍虎、骰寶、輪盤全數支援行動裝置，單一錢包、免轉點數。</p>
+        <div class="hero__actions">
+          <a class="btn btn--gold" href="#register">立即註冊</a>
+          <a class="btn" href="#games">卡利試玩</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="trustbar" aria-label="平台特色">
+      <div class="container trustbar__grid">
+        <div class="trust-item"><strong>0.6%</strong><span>無上限直退反水</span></div>
+        <div class="trust-item"><strong>24H</strong><span>全自動快速出款</span></div>
+        <div class="trust-item"><strong>PAGCOR</strong><span>監管執照・第三方檢測認證</span></div>
+        <div class="trust-item"><strong>單一錢包</strong><span>免轉點數・全遊戲通用</span></div>
+      </div>
+    </section>
+
+    <section class="section section--shade" id="promotions">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Promotions</p>
+          <h2>優惠活動</h2>
+        </div>
+        <div class="slider reveal" data-slider>
+          <div class="slider__viewport">
+            <div class="slider__track">
+              <article class="slide">
+                <img src="assets/promo-withdraw.webp" alt="極速出款免手續費">
+                <div class="slide__copy"><small>Weekly Special</small><h3>極速出款 免手續費</h3><p>出款免手續費，每週免費 2 次</p><div class="tags"><span class="tag">每週免費 2 次</span><span class="tag">0 手續費</span></div></div>
+              </article>
+              <article class="slide">
+                <img src="assets/promo-rebate.webp" alt="免申請反水 0.6%">
+                <div class="slide__copy"><small>Daily Rebate</small><h3>免申請 反水 0.6%</h3><p>不用登記，每日自動退水入袋</p><div class="tags"><span class="tag">自動派發</span><span class="tag">全平台通用</span></div></div>
+              </article>
+              <article class="slide">
+                <img src="assets/brand-dealer.webp" alt="首儲加碼存千送五">
+                <div class="slide__copy"><small>Welcome Bonus</small><h3>首儲加碼 存千送五</h3><p>首次存 1000 立即多拿 500</p><div class="tags"><span class="tag">加碼 50%</span><span class="tag">限首儲一次</span></div></div>
+              </article>
+            </div>
+          </div>
+          <button class="slider__arrow slider__arrow--prev" type="button" aria-label="上一檔優惠">←</button>
+          <button class="slider__arrow slider__arrow--next" type="button" aria-label="下一檔優惠">→</button>
+          <div class="dots" aria-label="選擇優惠"><button class="dot active" aria-label="第 1 項"></button><button class="dot" aria-label="第 2 項"></button><button class="dot" aria-label="第 3 項"></button></div>
+        </div>
+        <div class="center-action"><a class="btn" href="#promotions">查閱活動</a></div>
+      </div>
+    </section>
+
+    <section class="section" id="games">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Games</p>
+          <h2>產品系統</h2>
+          <p>六大經典真人遊戲，手機、平板與桌機流暢同步。</p>
+        </div>
+        <div class="games-grid">
+          <a class="game-card reveal" href="#game-baccarat"><img src="assets/game-baccarat.webp" alt="卡利百家樂"><h3 class="game-card__name">卡利百家樂</h3><span class="game-card__arrow">進入遊戲 →</span></a>
+          <a class="game-card reveal" href="#game-niuniu"><img src="assets/game-niuniu.webp" alt="牛牛百家樂"><h3 class="game-card__name">牛牛百家樂</h3><span class="game-card__arrow">進入遊戲 →</span></a>
+          <a class="game-card reveal" href="#game-sicbo"><img src="assets/game-sicbo.webp" alt="骰寶"><h3 class="game-card__name">骰寶</h3><span class="game-card__arrow">進入遊戲 →</span></a>
+          <a class="game-card reveal" href="#game-blackjack"><img src="assets/game-blackjack.webp" alt="廿一點"><h3 class="game-card__name">廿一點</h3><span class="game-card__arrow">進入遊戲 →</span></a>
+          <a class="game-card reveal" href="#game-roulette"><img src="assets/game-roulette.webp" alt="輪盤"><h3 class="game-card__name">輪盤</h3><span class="game-card__arrow">進入遊戲 →</span></a>
+          <a class="game-card reveal" href="#game-dragontiger"><img src="assets/game-dragontiger.webp" alt="龍虎"><h3 class="game-card__name">龍虎</h3><span class="game-card__arrow">進入遊戲 →</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--shade" id="special">
+      <div class="container">
+        <div class="feature-layout reveal">
+          <div class="feature-media"><img src="assets/brand-dealer.webp" alt="卡利真人娛樂品牌特色"></div>
+          <div class="feature-copy">
+            <p class="eyebrow">Special</p>
+            <h2>品牌特色</h2>
+            <p>作為線上娛樂先驅，卡利自主研發 H5 移動版與 APP 移動平台，各款遊戲完美兼容不同裝置系統與平台。</p>
+            <ul class="feature-list">
+              <li><strong>原廠直營</strong>CALI GAMING 直營供應商，非代理轉接，遊戲結果與金流皆由原廠負責。</li>
+              <li><strong>全裝置同步</strong>手機、平板、桌機的畫質與流暢度一致。</li>
+              <li><strong>單一錢包</strong>免轉點數，所有遊戲共用同一額度，不必在遊戲之間搬移點數。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="journal">
+      <div class="container">
+        <div class="section-head reveal"><p class="eyebrow">Journal</p><h2>文章分類</h2></div>
+        <div class="journal-grid">
+          <article class="journal-card reveal"><div class="journal-card__visual"><img src="assets/game-baccarat.webp" alt="百家樂文章"><span class="journal-card__count">3 篇文章</span></div><div class="journal-card__body"><h3>百家樂</h3><p>玩法、賠率、返水計算與路單看法，想從百家樂入門的都看這裡。</p><a class="text-link" href="#journal">查看全部 →</a></div></article>
+          <article class="journal-card reveal"><div class="journal-card__visual"><img src="assets/promo-rebate.webp" alt="返水與優惠文章"><span class="journal-card__count">3 篇文章</span></div><div class="journal-card__body"><h3>返水與優惠</h3><p>返水比率、有效投注與洗碼量怎麼算，以及各項優惠活動的申請條件。</p><a class="text-link" href="#journal">查看全部 →</a></div></article>
+          <article class="journal-card reveal"><div class="journal-card__visual"><img src="assets/brand-dealer.webp" alt="新手指南文章"><span class="journal-card__count">2 篇文章</span></div><div class="journal-card__body"><h3>新手指南</h3><p>從註冊、儲值、試玩到出金，第一次使用遊戲大廳需要知道的流程。</p><a class="text-link" href="#journal">查看全部 →</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--shade" id="faq">
+      <div class="container">
+        <div class="section-head reveal"><p class="eyebrow">FAQ</p><h2>官方常見問題</h2></div>
+        <div class="faq reveal">
+          <div class="faq-item open"><button class="faq-question" type="button" aria-expanded="true"><span class="faq-badge">安全驗證</span><strong>卡利系統是詐騙網站嗎？</strong><span class="faq-icon">＋</span></button><div class="faq-answer"><p>真正的系統平台擁有完整驗證流程，遊戲結果皆經公平機制檢測。使用前仍應自行確認所在區域的法令與服務條款。</p></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">試玩</span><strong>卡利娛樂城可以試玩嗎？</strong><span class="faq-icon">＋</span></button><div class="faq-answer"><p>可由產品系統選擇遊戲，進入體驗模式預覽介面與玩法。</p></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">出金時效</span><strong>出金要多久？</strong><span class="faq-icon">＋</span></button><div class="faq-answer"><p>頁面示意為 24 小時自動化處理，實際時效依服務規則與驗證狀態為準。</p></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">試玩</span><strong>卡利娛樂城試玩需要註冊嗎？</strong><span class="faq-icon">＋</span></button><div class="faq-answer"><p>試玩展示不需要建立正式帳號，正式服務則依平台規定辦理。</p></div></div>
+          <div class="faq-item"><button class="faq-question" type="button" aria-expanded="false"><span class="faq-badge">機制說明</span><strong>卡利娛樂城是現金版還是信用版？</strong><span class="faq-icon">＋</span></button><div class="faq-answer"><p>此檔案為前端大廳 UI 展示，不含儲值、支付、下注或帳務功能。</p></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><img src="assets/logo.svg" alt="卡利娛樂城"><p>亞洲線上真人娛樂平台，提供百家樂、牛牛、骰寶、廿一點、輪盤、龍虎等真人遊戲大廳展示。</p><a class="service-chip" href="#service">◎ 24 小時官方客服</a></div>
+        <nav class="footer-col" aria-label="快速導覽"><h3>快速導覽</h3><a href="#top">首頁</a><a href="#special">關於卡利</a><a href="#games">卡利試玩</a><a href="#faq">常見問題</a><a href="#journal">文章分類</a></nav>
+        <nav class="footer-col" aria-label="遊戲"><h3>遊戲</h3><a href="#games">卡利百家樂</a><a href="#games">牛牛百家樂</a><a href="#games">骰寶</a><a href="#games">廿一點</a><a href="#games">輪盤</a><a href="#games">龍虎</a></nav>
+        <nav class="footer-col" aria-label="優惠"><h3>優惠</h3><a href="#promotions">出款免手續費</a><a href="#promotions">反水 0.6%</a><a href="#promotions">首儲加碼</a></nav>
+      </div>
+      <div class="responsible"><span class="age">18＋</span><span>禁止未滿 18 歲人士參與・理性娛樂・適度投注<br>本頁為遊戲大廳前端介面展示，不含帳號、金流或下注後端。</span></div>
+      <p class="copyright">© 2019–2026 卡利娛樂城 UI Demo. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <nav class="mobile-dock" aria-label="快速功能">
+    <a href="#service"><img src="assets/icon-support.svg" alt="">客服</a>
+    <a href="#games"><img src="assets/icon-play.svg" alt="">試玩</a>
+    <a href="#register"><img src="assets/icon-register.svg" alt="">註冊</a>
+    <a href="#promotions"><img src="assets/icon-gift.svg" alt="">優惠</a>
+    <a href="#login"><img src="assets/icon-login.svg" alt="">登入</a>
+  </nav>
+
+  <script>
+    (() => {
+      const body = document.body;
+      const menuButton = document.querySelector('.menu-toggle');
+      const mobileMenu = document.querySelector('.mobile-menu');
+
+      menuButton.addEventListener('click', () => {
+        const open = body.classList.toggle('menu-open');
+        menuButton.setAttribute('aria-expanded', String(open));
+        menuButton.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      });
+      mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+        body.classList.remove('menu-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }));
+
+      document.querySelectorAll('[data-slider]').forEach(slider => {
+        const track = slider.querySelector('.slider__track');
+        const slides = [...slider.querySelectorAll('.slide')];
+        const dots = [...slider.querySelectorAll('.dot')];
+        let index = 0;
+        let timer;
+
+        const go = value => {
+          index = (value + slides.length) % slides.length;
+          track.style.transform = `translateX(-${index * 100}%)`;
+          dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        };
+        const autoplay = () => {
+          clearInterval(timer);
+          timer = setInterval(() => go(index + 1), 5500);
+        };
+
+        slider.querySelector('.slider__arrow--prev').addEventListener('click', () => { go(index - 1); autoplay(); });
+        slider.querySelector('.slider__arrow--next').addEventListener('click', () => { go(index + 1); autoplay(); });
+        dots.forEach((dot, i) => dot.addEventListener('click', () => { go(i); autoplay(); }));
+        slider.addEventListener('mouseenter', () => clearInterval(timer));
+        slider.addEventListener('mouseleave', autoplay);
+        autoplay();
+      });
+
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const button = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        const sync = () => { answer.style.maxHeight = item.classList.contains('open') ? `${answer.scrollHeight}px` : '0px'; };
+        button.addEventListener('click', () => {
+          item.classList.toggle('open');
+          button.setAttribute('aria-expanded', String(item.classList.contains('open')));
+          sync();
+        });
+        sync();
+      });
+
+      const reveal = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            reveal.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .08 });
+      document.querySelectorAll('.reveal').forEach(el => reveal.observe(el));
+    })();
+  </script>
+</body>
+</html>
